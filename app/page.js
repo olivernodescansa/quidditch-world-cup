@@ -6,14 +6,15 @@ import Crest from "@/components/Crest";
 import Avatar from "@/components/Avatar";
 import SignInButton from "@/components/SignInButton";
 import AdSlot from "@/components/AdSlot";
+import StepIcon from "@/components/StepIcons";
 
 export const dynamic = "force-dynamic";
 
 const STEPS = [
-  ["Entrá con Google", "Un solo toque. Solo se permite una cuenta por conexión para que la tabla sea justa."],
-  ["Armá tu ficha", "Tu @ de Instagram, un ícono, el equipo al que te postulás y tu posición."],
-  ["Volá y sumá puntos", "Esquivá bludgers bajando y torres del castillo subiendo. Cada vez va más rápido."],
-  ["Ganate tu lugar", "Los mejores puntajes de cada posición clasifican a su equipo para el Mundial."],
+  ["Entrá con Google", "Un solo toque. Solo se permite una cuenta por conexión para que la tabla sea justa.", "google"],
+  ["Armá tu ficha", "Tu @ de Instagram, un ícono, el equipo al que te postulás y tu posición.", "ficha"],
+  ["Volá y sumá puntos", "Esquivá bludgers bajando y torres del castillo subiendo. Cada vez va más rápido.", "volar"],
+  ["Ganate tu lugar", "Los mejores puntajes de cada posición clasifican a su equipo para el Mundial.", "trofeo"],
 ];
 
 export default async function Home() {
@@ -57,38 +58,59 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="wrap">
-        <div className="matchup">
-          <h3>LOS CUATRO FINALISTAS</h3>
-          <div className="crest-row">
-            {TEAMS.map((t) => (
-              <div key={t.slug}>
-                <Crest slug={t.slug} size={54} />
-                {t.short}
-              </div>
-            ))}
+      {/* FONDO DE ESTADIO: finalistas + cómo se juega */}
+      <div className="stadium">
+        <div className="wrap">
+          <div className="matchup">
+            <h3>LOS CUATRO FINALISTAS</h3>
+            <div className="crest-row">
+              {TEAMS.map((t) => (
+                <div key={t.slug}>
+                  <Crest slug={t.slug} size={62} />
+                  {t.short}
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+
+        {/* CÓMO FUNCIONA */}
+        <section className="section">
+          <div className="wrap">
+            <p className="eyebrow tab-eyebrow">Cómo se juega</p>
+            <h2 className="h2 h2-metal">Del suelo a la cancha en 4 pasos</h2>
+            <div className="steps">
+              {STEPS.map(([title, text, icon], i) => (
+                <div className="step" key={title}>
+                  <div className="step-n">{i + 1}</div>
+                  <div className="step-body">
+                    <StepIcon name={icon} />
+                    <div>
+                      <b>{title}</b>
+                      <p>{text}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="stadium-foot" aria-hidden="true">
+          <i />
+          <svg width="54" height="54" viewBox="0 0 64 64">
+            <g stroke="#e9b93f" strokeWidth="4" strokeLinecap="round">
+              <line x1="10" y1="54" x2="50" y2="10" />
+              <line x1="54" y1="54" x2="14" y2="10" />
+            </g>
+            <g stroke="#b8841c" strokeWidth="2" strokeLinecap="round">
+              <line x1="6" y1="58" x2="12" y2="50" />
+              <line x1="58" y1="58" x2="52" y2="50" />
+            </g>
+          </svg>
+          <i />
         </div>
       </div>
-
-      {/* CÓMO FUNCIONA */}
-      <section className="section">
-        <div className="wrap">
-          <p className="eyebrow">Cómo se juega</p>
-          <h2 className="h2">Del suelo a la cancha en 4 pasos</h2>
-          <div className="steps">
-            {STEPS.map(([title, text], i) => (
-              <div className="step" key={title}>
-                <div className="step-n">{i + 1}</div>
-                <div>
-                  <b>{title}</b>
-                  <p>{text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* EQUIPOS */}
       <section className="section light" id="equipos">
