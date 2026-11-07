@@ -30,28 +30,27 @@ export default async function Home() {
     <>
       {/* HERO */}
       <section className="hero">
-        <svg className="snitch-float" width="70" height="70" viewBox="0 0 64 64" aria-hidden="true">
-          <ellipse cx="10" cy="24" rx="12" ry="5" fill="#fff" opacity=".9" transform="rotate(-25 10 24)" />
-          <ellipse cx="54" cy="24" rx="12" ry="5" fill="#fff" opacity=".9" transform="rotate(25 54 24)" />
-          <circle cx="32" cy="34" r="12" fill="#f5c451" />
-          <circle cx="28" cy="30" r="3" fill="#fff6cf" />
-        </svg>
         <div className="wrap">
-          <span className="hero-tag">EDICIÓN I · 4 EQUIPOS</span>
+          <div className="hero-tag">
+            <i />
+            EDICIÓN I · 4 EQUIPOS
+            <i />
+          </div>
           <h1 className="hero-title">
-            <span>EL</span>
-            MUNDIAL DE
-            <br />
-            QUIDDITCH
+            <span className="t1">El Mundial de</span>
+            <span className="t2">Quidditch</span>
+            <svg className="swoosh" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M2 12 C110 2 290 0 398 6 C300 7 140 10 2 12 Z" fill="#e9b93f" />
+            </svg>
           </h1>
           <p className="hero-sub">
             Cuatro equipos legendarios, una tabla de puntos global y una escoba para ganarte tu lugar en la cancha.
           </p>
           <div className="hero-cta">
             {session?.user ? (
-              <Link href="/jugar" className="btn btn-gold">Ir a jugar</Link>
+              <Link href="/jugar" className="btn btn-gold">Ir a jugar ›</Link>
             ) : (
-              <SignInButton label="Entrar con Google" className="btn btn-white" />
+              <SignInButton label="Entrar con Google" className="btn btn-gold" />
             )}
             <Link href="/ranking" className="btn btn-ghost">Ver ranking</Link>
           </div>
