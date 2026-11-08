@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { todayAR } from "@/lib/players";
 import { DAILY_BONUS } from "@/lib/game-config";
+import { isClosedNow } from "@/lib/season";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,9 @@ export async function POST() {
   const session = await auth();
   const uid = session?.user?.id;
   if (!uid) return NextResponse.json({ error: "No autenticado." }, { status: 401 });
+
+  if (isClosedNow())
+    return NextResponse.json({ error: "La clasificación ya cerró." }, { status: 403 });
 
   const sql = db();
   const today = todayAR();
