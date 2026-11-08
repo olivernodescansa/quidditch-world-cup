@@ -445,3 +445,11 @@ footer.site a { text-decoration: underline; }
   .host-photo { order: 0; align-self: end; width: 100%; height: 310px; margin: -62px 0 0 0; background-position: 50% 100%; }
   .host-body { order: 0; padding: 24px 30px 24px 0; }
 }
+
+/* ===== Mobile: sin scroll horizontal + menú inferior fijo ===== */
+html, body { max-width: 100%; overflow-x: clip; }
+.crest-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; justify-items: center; }
+.crest-row div { min-width: 0; text-align: center; font-size: 0.78rem; letter-spacing: 0.06em; overflow-wrap: anywhere; }
+.crest-row svg { max-width: 100%; height: auto; }
+@media (min-width: 560px) { .crest-row div { font-size: 1rem; letter-spacing: 0.14em; } }
+.bottom-nav { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; transform: translateZ(0); }
