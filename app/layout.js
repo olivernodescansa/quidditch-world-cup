@@ -4,6 +4,7 @@ import Loader from "@/components/Loader";
 import TopBar from "@/components/TopBar";
 import BottomNav from "@/components/BottomNav";
 import { auth } from "@/lib/auth";
+import { seasonState } from "@/lib/season";
 
 export const metadata = {
   title: "Mundial de Quidditch",
@@ -19,6 +20,7 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const session = await auth();
+  const { preview } = await seasonState();
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
   return (
     <html lang="es">
@@ -32,6 +34,11 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <Loader />
+        {preview && (
+          <div className="preview-bar">
+            VISTA PREVIA · así se ve la web después del 29/11 · <a href="/?preview=0">Salir de la vista previa</a>
+          </div>
+        )}
         <TopBar />
         <main>{children}</main>
         <BottomNav loggedIn={!!session?.user} />
