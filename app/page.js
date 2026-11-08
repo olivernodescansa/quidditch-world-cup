@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { leaderboard } from "@/lib/players";
+import { seasonState, DEADLINE_MS } from "@/lib/season";
+import Star from "@/components/Star";
+import Countdown from "@/components/Countdown";
 import { TEAMS, fixtures, teamBySlug, roleById } from "@/lib/teams";
 import Crest from "@/components/Crest";
 import Avatar from "@/components/Avatar";
@@ -27,10 +30,11 @@ const STEPS = [
 
 export default async function Home() {
   const session = await auth();
+  const { closed } = await seasonState();
 
   let top = [];
   try {
-    top = await leaderboard({ limit: 5 });
+    top = await leaderboard({ limit: 5, markStarters: closed });
   } catch {
     // base de datos todavia sin configurar: la landing sigue funcionando
   }
@@ -55,8 +59,20 @@ export default async function Home() {
           <p className="hero-sub">
             Cuatro equipos legendarios, una tabla de puntos global y una escoba para ganarte tu lugar en la cancha.
           </p>
+          <div className="hero-deadline">
+            {closed ? (
+              <span><Star size={16} /> Clasificación cerrada · ya están los titulares</span>
+            ) : (
+              <>
+                <span>Rankeá hasta el 29/11 · 24:00 UTC</span>
+                <Countdown to={DEADLINE_MS} />
+              </>
+            )}
+          </div>
           <div className="hero-cta">
-            {session?.user ? (
+            {closed ? (
+              <Link href="/ranking?titulares=1" className="btn btn-gold">Ver titulares ›</Link>
+            ) : session?.user ? (
               <Link href="/jugar" className="btn btn-gold">Ir a jugar ›</Link>
             ) : (
               <SignInButton label="Entrar con Google" className="btn btn-gold" />
@@ -189,7 +205,7 @@ export default async function Home() {
           <div className="wrap">
             <div className="sec-title left">
               <p className="eyebrow">Tabla global</p>
-              <h2 className="h2 h2-metal">Los mejores del momento</h2>
+              <h2 className="h2 h2-metal">{closed ? "Así quedó la tabla" : "Los mejores del momento"}</h2>
               <div className="title-ornament wide" aria-hidden="true">
                 <i />
                 <svg width="64" height="22" viewBox="0 0 120 40">
@@ -210,7 +226,7 @@ export default async function Home() {
                     <span className="rank-pos">{r.pos}</span>
                     <Avatar id={r.icon} size={44} ring="#e9b93f" />
                     <div>
-                      <div className="rank-name">@{r.instagram}</div>
+                      <div className="rank-name">@{r.instagram} {closed && r.starter && <Star size={14} />}</div>
                       <div className="rank-meta">
                         <Crest slug={r.team} size={12} /> {teamBySlug(r.team)?.short} · {roleById(r.role)?.label}
                       </div>
@@ -257,8 +273,23 @@ export default async function Home() {
               </div>
               <p>
                 Todos contra todos, solo ida. En cada partido se plantean juegos y gana el equipo que acumule más puntos.
-                Las fechas se anuncian más adelante.
+                Los partidos se juegan en diciembre; las fechas se anuncian más adelante.
               </p>
+              <div className="titulares-note">
+                <Star size={18} />
+                {closed ? (
+                  <p>
+                    La clasificación cerró. Los titulares de cada equipo ya están definidos: 3 cazadores, 2 golpeadores, 1 guardián,
+                    1 entrenador y 1 buscador.{" "}
+                    <Link href="/ranking?titulares=1">Ver titulares</Link>
+                  </p>
+                ) : (
+                  <p>
+                    Podés rankear hasta el <b>29 de noviembre de 2026 a las 24:00 UTC</b> (21:00 en Argentina). Los mejores de cada
+                    posición pasan a ser titulares de su equipo: 3 cazadores, 2 golpeadores, 1 guardián, 1 entrenador y 1 buscador.
+                  </p>
+                )}
+              </div>
               <div className="fixtures">
                 {fixtures().map(([a, b]) => (
                   <div className="fixture" key={a.slug + b.slug}>
