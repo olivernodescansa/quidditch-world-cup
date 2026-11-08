@@ -26,7 +26,7 @@ export default async function TopBar() {
         </span>
       </Link>
 
-      <TopNav />
+      <TopNav loggedIn={!!session?.user} />
 
       {session?.user ? (
         <form
