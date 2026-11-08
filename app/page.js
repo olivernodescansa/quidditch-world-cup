@@ -10,6 +10,14 @@ import StepIcon from "@/components/StepIcons";
 
 export const dynamic = "force-dynamic";
 
+// Enlace del botón "Ver detalles" de cada estandarte (wiki de cada equipo)
+const WIKI = {
+  puddlemere: "https://harrypotter.fandom.com/es/wiki/Puddlemere_United",
+  wimbourne: "https://harrypotter.fandom.com/es/wiki/Avispas_de_Wimbourne",
+  chudley: "https://harrypotter.fandom.com/es/wiki/Chudley_Cannons",
+  caerphilly: "https://harrypotter.fandom.com/es/wiki/Caerphilly_Catapults",
+};
+
 const STEPS = [
   ["Entrá con Google", "Un solo toque. Solo se permite una cuenta por conexión para que la tabla sea justa.", "google"],
   ["Armá tu ficha", "Tu @ de Instagram, un ícono, el equipo al que te postulás y tu posición.", "ficha"],
@@ -115,99 +123,179 @@ export default async function Home() {
       {/* EQUIPOS */}
       <section className="section light" id="equipos">
         <div className="wrap">
-          <p className="eyebrow">Los equipos</p>
-          <h2 className="h2">Elegí tu camiseta</h2>
+          <div className="sec-title">
+            <p className="kicker">
+              <i />
+              ◆ Los equipos ◆
+              <i />
+            </p>
+            <h2 className="h2 h2-metal">Elegí tu camiseta</h2>
+            <div className="title-ornament" aria-hidden="true">
+              <i />
+              <svg width="64" height="22" viewBox="0 0 120 40">
+                <g fill="#e9b93f">
+                  <path d="M52 21 C40 9 22 6 3 11 C15 13 23 17 28 24 C36 22 45 23 52 21 Z" />
+                  <path d="M68 21 C80 9 98 6 117 11 C105 13 97 17 92 24 C84 22 75 23 68 21 Z" />
+                  <circle cx="60" cy="23" r="9" />
+                </g>
+              </svg>
+              <i />
+            </div>
+          </div>
+
           <div className="teams">
             {TEAMS.map((t) => (
-              <article className="team-card" key={t.slug}>
-                <div className="banner" style={{ background: `linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})` }}>
-                  <Crest slug={t.slug} size={74} />
-                </div>
-                <div className="team-body">
-                  <h3>{t.name}</h3>
-                  <p className="motto">{t.motto}</p>
-                  <p>{t.bio}</p>
-                  <div className="facts">
-                    <span>Desde {t.founded}</span>
-                    <span>{t.home}</span>
-                    <span>{t.colorsText}</span>
+              <article className={`banner-wrap std-${t.slug}`} key={t.slug}>
+                <div className="standard">
+                  <div className="std-face">
+                    <Crest slug={t.slug} size={84} />
+                    <h3>{t.name}</h3>
+                    <p className="motto">{t.motto}</p>
+                    <p className="bio">{t.bio}</p>
+                    <p className="std-meta">
+                      Desde {t.founded} · {t.home}
+                    </p>
+                    <a className="std-btn" href={WIKI[t.slug]} target="_blank" rel="noopener noreferrer">
+                      Ver detalles
+                    </a>
                   </div>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+          <p className="swipe-hint">Deslizá para ver los 4 equipos ›</p>
 
-      {/* TOP 5 */}
-      <section className="section">
-        <div className="wrap">
-          <p className="eyebrow">Tabla global</p>
-          <h2 className="h2">Los mejores del momento</h2>
-          {top.length ? (
-            <div className="rank-list">
-              {top.map((r) => (
-                <div className="rank-row" key={r.id}>
-                  <span className="rank-pos">{r.pos}</span>
-                  <Avatar id={r.icon} size={40} />
-                  <div>
-                    <div className="rank-name">@{r.instagram}</div>
-                    <div className="rank-meta">
-                      <Crest slug={r.team} size={12} /> {teamBySlug(r.team)?.short} · {roleById(r.role)?.label}
-                    </div>
-                  </div>
-                  <span className="rank-pts">{r.total}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="lead">Todavía no hay jugadores. ¡Sé el primero en la tabla!</p>
-          )}
-          <p style={{ marginTop: 16 }}>
-            <Link href="/ranking" className="btn btn-ghost btn-sm">Ver tabla completa</Link>
-          </p>
-        </div>
-      </section>
-
-      <div className="wrap">
-        <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} />
-      </div>
-
-      {/* PARTIDOS */}
-      <section className="section" id="partidos">
-        <div className="wrap">
-          <p className="eyebrow">Partidos</p>
-          <div className="soon">
-            <span className="soon-badge">Próximamente</span>
-            <p>
-              Todos contra todos, solo ida. En cada partido se plantean juegos y gana el equipo que acumule más puntos.
-              Las fechas se anuncian más adelante.
-            </p>
-            <div className="fixtures">
-              {fixtures().map(([a, b]) => (
-                <div className="fixture" key={a.slug + b.slug}>
-                  <span>{a.short}</span>
-                  <em>VS</em>
-                  <span>{b.short}</span>
-                </div>
-              ))}
-            </div>
+          <div className="stadium-foot" aria-hidden="true">
+            <i />
+            <svg width="90" height="60" viewBox="0 0 90 60">
+              <g fill="none" stroke="#e9b93f" strokeWidth="2.4">
+                <circle cx="45" cy="16" r="13" />
+                <line x1="45" y1="29" x2="45" y2="60" />
+                <circle cx="16" cy="30" r="9" />
+                <line x1="16" y1="39" x2="16" y2="60" />
+                <circle cx="74" cy="30" r="9" />
+                <line x1="74" y1="39" x2="74" y2="60" />
+              </g>
+            </svg>
+            <i />
           </div>
         </div>
       </section>
 
-      {/* HOST */}
-      <section className="section" id="host">
-        <div className="wrap">
-          <div className="host">
-            <span className="host-label">HOST DEL MUNDIAL</span>
-            <span className="host-handle">@Wood_no_descansa</span>
-            <p className="muted">
-              Quien organiza, arbitra y mantiene en pie el torneo. Seguilo para enterarte de las fechas, los resultados y las novedades.
+      {/* FONDO DE CASTILLO: tabla global + partidos + host */}
+      <div className="castle">
+        {/* TOP 5 */}
+        <section className="section">
+          <div className="wrap">
+            <div className="sec-title left">
+              <p className="eyebrow">Tabla global</p>
+              <h2 className="h2 h2-metal">Los mejores del momento</h2>
+              <div className="title-ornament wide" aria-hidden="true">
+                <i />
+                <svg width="64" height="22" viewBox="0 0 120 40">
+                  <g fill="#e9b93f">
+                    <path d="M52 21 C40 9 22 6 3 11 C15 13 23 17 28 24 C36 22 45 23 52 21 Z" />
+                    <path d="M68 21 C80 9 98 6 117 11 C105 13 97 17 92 24 C84 22 75 23 68 21 Z" />
+                    <circle cx="60" cy="23" r="9" />
+                  </g>
+                </svg>
+                <i />
+              </div>
+            </div>
+
+            {top.length ? (
+              <div className="rank-list">
+                {top.map((r) => (
+                  <div className="rank-row" key={r.id}>
+                    <span className="rank-pos">{r.pos}</span>
+                    <Avatar id={r.icon} size={44} ring="#e9b93f" />
+                    <div>
+                      <div className="rank-name">@{r.instagram}</div>
+                      <div className="rank-meta">
+                        <Crest slug={r.team} size={12} /> {teamBySlug(r.team)?.short} · {roleById(r.role)?.label}
+                      </div>
+                    </div>
+                    <span className="rank-pts">{r.total}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="lead">Todavía no hay jugadores. ¡Sé el primero en la tabla!</p>
+            )}
+            <p style={{ marginTop: 18 }}>
+              <Link href="/ranking" className="btn btn-ghost btn-sm">Ver tabla completa</Link>
             </p>
-            <a className="btn btn-gold btn-sm" href="https://instagram.com/wood_no_descansa" target="_blank" rel="noopener noreferrer">
-              Seguir en Instagram
-            </a>
+          </div>
+        </section>
+
+        <div className="wrap">
+          <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_HOME} />
+        </div>
+
+        {/* PARTIDOS */}
+        <section className="section" id="partidos">
+          <div className="wrap">
+            <div className="partidos-head">
+              <span>Partidos</span>
+              <i />
+              <svg className="hoops" width="90" height="60" viewBox="0 0 90 60" aria-hidden="true">
+                <g fill="none" stroke="#e9b93f" strokeWidth="2.4">
+                  <circle cx="45" cy="16" r="13" />
+                  <line x1="45" y1="29" x2="45" y2="60" />
+                  <circle cx="16" cy="30" r="9" />
+                  <line x1="16" y1="39" x2="16" y2="60" />
+                  <circle cx="74" cy="30" r="9" />
+                  <line x1="74" y1="39" x2="74" y2="60" />
+                </g>
+              </svg>
+            </div>
+            <div className="soon">
+              <div className="soon-title">
+                <i />
+                <span className="soon-badge">Próximamente</span>
+                <i />
+              </div>
+              <p>
+                Todos contra todos, solo ida. En cada partido se plantean juegos y gana el equipo que acumule más puntos.
+                Las fechas se anuncian más adelante.
+              </p>
+              <div className="fixtures">
+                {fixtures().map(([a, b]) => (
+                  <div className="fixture" key={a.slug + b.slug}>
+                    <span>{a.short}</span>
+                    <em>VS</em>
+                    <span>{b.short}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* HOST: fondo azul liso + card con textura y foto */}
+      <section className="host-zone" id="host">
+        <div className="wrap">
+          <div className="host-card">
+            <div className="host-frame" aria-hidden="true" />
+            <svg className="host-snitch" width="86" height="30" viewBox="0 0 120 40" aria-hidden="true">
+              <g fill="#e9b93f">
+                <path d="M52 21 C40 9 22 6 3 11 C15 13 23 17 28 24 C36 22 45 23 52 21 Z" />
+                <path d="M68 21 C80 9 98 6 117 11 C105 13 97 17 92 24 C84 22 75 23 68 21 Z" />
+                <circle cx="60" cy="23" r="9" />
+              </g>
+            </svg>
+            <div className="host-photo" aria-hidden="true" />
+            <div className="host-body">
+              <span className="host-label">HOST DEL MUNDIAL</span>
+              <span className="host-handle">@Wood_no_descansa</span>
+              <p>
+                Quien organiza, arbitra y mantiene en pie el torneo. Seguilo para enterarte de las fechas, los resultados y las novedades.
+              </p>
+              <a className="btn btn-gold btn-sm" href="https://instagram.com/wood_no_descansa" target="_blank" rel="noopener noreferrer">
+                Seguir en Instagram
+              </a>
+            </div>
           </div>
         </div>
       </section>
