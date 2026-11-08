@@ -3,6 +3,7 @@ import "./globals.css";
 import Loader from "@/components/Loader";
 import TopBar from "@/components/TopBar";
 import BottomNav from "@/components/BottomNav";
+import { auth } from "@/lib/auth";
 
 export const metadata = {
   title: "Mundial de Quidditch",
@@ -16,7 +17,8 @@ export const viewport = {
   themeColor: "#0a0d1f",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await auth();
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
   return (
     <html lang="es">
@@ -32,7 +34,7 @@ export default function RootLayout({ children }) {
         <Loader />
         <TopBar />
         <main>{children}</main>
-        <BottomNav />
+        <BottomNav loggedIn={!!session?.user} />
         {adClient && (
           <Script
             async
