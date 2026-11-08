@@ -326,10 +326,10 @@ footer.site a { text-decoration: underline; }
 .std-face { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 26px 18px 82px; background: #1b2a6b center / cover no-repeat; clip-path: var(--pennant); color: #fff; }
 .std-face::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.5)); }
 .std-face > * { position: relative; }
-.std-puddlemere .std-face { background-image: url("/estandartes/puddlemere.jpg"); }
-.std-wimbourne .std-face { background-image: url("/estandartes/wimbourne.jpg"); }
-.std-chudley .std-face { background-image: url("/estandartes/chudley.jpg"); }
-.std-caerphilly .std-face { background-image: url("/estandartes/caerphilly.jpg"); }
+.std-puddlemere .std-face { background-image: url("/estandartes/puddlemere.jpg"), url("/estandartes/puddlemere.jpeg"), url("/estandartes/puddlemere.png"), url("/estandartes/puddlemere.webp"); background-size: cover; background-position: center; background-repeat: no-repeat; }
+.std-wimbourne .std-face { background-image: url("/estandartes/wimbourne.jpg"), url("/estandartes/wimbourne.jpeg"), url("/estandartes/wimbourne.png"), url("/estandartes/wimbourne.webp"); background-size: cover; background-position: center; background-repeat: no-repeat; }
+.std-chudley .std-face { background-image: url("/estandartes/chudley.jpg"), url("/estandartes/chudley.jpeg"), url("/estandartes/chudley.png"), url("/estandartes/chudley.webp"); background-size: cover; background-position: center; background-repeat: no-repeat; }
+.std-caerphilly .std-face { background-image: url("/estandartes/caerphilly.jpg"), url("/estandartes/caerphilly.jpeg"), url("/estandartes/caerphilly.png"), url("/estandartes/caerphilly.webp"); background-size: cover; background-position: center; background-repeat: no-repeat; }
 .std-wimbourne .std-face::before { background: linear-gradient(180deg, rgba(40, 22, 0, 0.34), rgba(40, 22, 0, 0.5) 60%, rgba(30, 15, 0, 0.66)); }
 .std-chudley .std-face::before { background: linear-gradient(180deg, rgba(40, 12, 0, 0.22), rgba(40, 12, 0, 0.38) 60%, rgba(30, 8, 0, 0.58)); }
 .std-face svg { filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)); }
@@ -433,4 +433,15 @@ footer.site a { text-decoration: underline; }
   .host-card { margin-top: 70px; min-height: 340px; }
   .host-photo { -webkit-mask-image: none; mask-image: none; align-self: end; height: 430px; min-height: 0; margin: -90px 0 -26px -34px; background-position: 50% 100%; }
   .host-body { margin-top: 0; }
+}
+
+/* ===== Host: card más chica, foto apoyada en el borde inferior, solo la cabeza sobresale ===== */
+.host-zone .wrap { max-width: 860px; }
+.host-card { display: flex; flex-direction: column; margin-top: 30px; }
+.host-body { order: 1; margin-top: 0; padding: 26px 22px 6px; }
+.host-photo { order: 2; align-self: center; width: 100%; height: 250px; margin: 0; background-size: contain; background-position: 50% 100%; filter: none; }
+@media (min-width: 760px) {
+  .host-card { display: grid; grid-template-columns: 42% 1fr; align-items: center; min-height: 250px; margin-top: 64px; }
+  .host-photo { order: 0; align-self: end; width: 100%; height: 310px; margin: -62px 0 0 0; background-position: 50% 100%; }
+  .host-body { order: 0; padding: 24px 30px 24px 0; }
 }
