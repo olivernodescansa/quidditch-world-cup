@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { getPlayer, getRankInfo, totalOf } from "@/lib/players";
+import { getPlayer, getRankInfo, totalOf, starters } from "@/lib/players";
+import { seasonState } from "@/lib/season";
+import Star from "@/components/Star";
 import { computeStats } from "@/lib/stats";
 import { teamBySlug, roleById } from "@/lib/teams";
 import Avatar from "@/components/Avatar";
@@ -45,6 +47,13 @@ export default async function Perfil() {
   const { rank, n } = await getRankInfo(total);
   const s = computeStats(p, rank, n);
   const team = teamBySlug(p.team);
+  const { closed } = await seasonState();
+  let isStarter = false;
+  if (closed) {
+    try {
+      isStarter = (await starters()).some((s) => s.id === p.id);
+    } catch {}
+  }
 
   return (
     <div className="wrap page">
@@ -52,7 +61,8 @@ export default async function Perfil() {
         <Avatar id={p.icon} size={72} ring="#f5c451" />
         <div style={{ flex: 1 }}>
           <small>{team?.name} · {roleById(p.role)?.label}</small>
-          <h1>@{p.instagram}</h1>
+          <h1>@{p.instagram} {isStarter && <Star size={22} />}</h1>
+          {isStarter && <small className="badge-t">TITULAR de {team?.short}</small>}
           <small>Puesto global #{rank} de {n}</small>
         </div>
         <Crest slug={p.team} size={44} />
